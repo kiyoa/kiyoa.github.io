@@ -1,0 +1,217 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="人生苦短，我用python"><title>flask-web学习笔记 | xlchen</title><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/4.2.0/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.0/grids-responsive-min.css"><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.bootcss.com/jquery/3.0.0/jquery.min.js"></script><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">flask-web学习笔记</h1><a id="logo" href="/.">xlchen</a><p class="description">人生苦短，我用python</p></div><div id="nav-menu"><a href="/." class="current"><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a><a href="/atom.xml"><i class="fa fa-rss"> 订阅</i></a></div></div><div id="layout" class="pure-g"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">flask-web学习笔记</h1><div class="post-meta">Dec 4, 2018<script src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js" async></script><span id="busuanzi_container_page_pv"> | <span id="busuanzi_value_page_pv"></span><span> Hits</span></span></div><a data-thread-key="2018/12/04/flask-web学习笔记/" href="/2018/12/04/flask-web学习笔记/#comments" class="ds-thread-count"></a><div class="post-content"><h1 id="flask-web-学习笔记"><a href="#flask-web-学习笔记" class="headerlink" title="flask web 学习笔记"></a>flask web 学习笔记</h1><h2 id="第一部分"><a href="#第一部分" class="headerlink" title="第一部分"></a>第一部分</h2><h3 id="第一章"><a href="#第一章" class="headerlink" title="第一章"></a>第一章</h3><h4 id="使用anaconda配置python2-7虚拟环境"><a href="#使用anaconda配置python2-7虚拟环境" class="headerlink" title="使用anaconda配置python2.7虚拟环境"></a>使用anaconda配置python2.7虚拟环境</h4><ul>
+<li>创建虚拟环境: conda create -n venv_name python=2.7</li>
+<li>激活虚拟环境: activate venv_name</li>
+<li>查看是否激活: python –version</li>
+<li>退出激活环境: deactivate venv_name</li>
+<li>删除虚拟环境: conda remove -n your_env_name(虚拟环境名称) –all</li>
+<li>三次虚拟环境的某个包: conda remove –name $your_env_name $package_name</li>
+<li>添加Anaconda的TUNA镜像 conda config –add channels <a href="https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/" target="_blank" rel="external">https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/</a></li>
+<li>设置搜索时显示通道地址 conda config –set show_channel_urls yes</li>
+</ul>
+<h4 id="安装flask"><a href="#安装flask" class="headerlink" title="安装flask"></a>安装flask</h4><ul>
+<li>安装flask: 必须先激活python的虚拟环境后执行</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pip install flask</div></pre></td></tr></table></figure>
+<ul>
+<li>检查安装是否成功</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ python</div><div class="line">&gt;import flask</div><div class="line">&gt;</div><div class="line">没有报错安装成功</div></pre></td></tr></table></figure>
+<h3 id="第二章"><a href="#第二章" class="headerlink" title="第二章"></a>第二章</h3><h4 id="程序的基础结构"><a href="#程序的基础结构" class="headerlink" title="程序的基础结构"></a>程序的基础结构</h4><p><strong>客户端—-&gt;WSGI(web服务网关接口)—&gt;服务端(处理对象)(Flask类的对象)</strong></p>
+<h4 id="基础概念"><a href="#基础概念" class="headerlink" title="基础概念"></a>基础概念</h4><ul>
+<li>路由: 处理URL和函数之间关系的程序</li>
+<li>视图函数: 用来响应客户端请求的函数，返回值可以是HTML的字符串或者是JSON字符串或者是XML字符串</li>
+<li>程序或请求上下文: 程序请求上下文(current_app、g)请求上下文 (request、session)</li>
+<li>current_app: 程序请求上下文变量名, 主要在程序实例激活后就可以访问</li>
+</ul>
+<h4 id="程序上下文和请求上下文"><a href="#程序上下文和请求上下文" class="headerlink" title="程序上下文和请求上下文"></a>程序上下文和请求上下文</h4><table>
+<thead>
+<tr>
+<th>变量名</th>
+<th>上下文类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>current_app</td>
+<td>程序上下文</td>
+<td>当前激活程序的程序实例</td>
+</tr>
+<tr>
+<td>g</td>
+<td>程序上下文</td>
+<td>处理请求时用作临时存储的对象。每次请求都会重置这个变量</td>
+</tr>
+<tr>
+<td>request</td>
+<td>请求上下文</td>
+<td>请求对象，封装了客户端发出的HTTP请求中的内容</td>
+</tr>
+<tr>
+<td>session</td>
+<td>请求上下文</td>
+<td>用户会话，用户存储请求之间需要’记住’的值的字典</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Flask 在分发请求之前激活（或推送）程序和请求上下文，请求处理完成后再将其删除</strong></p>
+<h4 id="请求调度"><a href="#请求调度" class="headerlink" title="请求调度"></a>请求调度</h4><ul>
+<li>查看路由方法</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; from hello import app</div><div class="line">&gt;&gt;&gt; app.url_map</div><div class="line">Map(\[&lt;Rule &apos;/&apos; (HEAD, OPTIONS, GET) -&gt; index&gt;,</div><div class="line">&lt;Rule &apos;/static/&lt;filename&gt;&apos; (HEAD, OPTIONS, GET) -&gt; static&gt;,</div><div class="line">&lt;Rule &apos;/user/&lt;name&gt;&apos; (HEAD, OPTIONS, GET) -&gt; user&gt;\])</div></pre></td></tr></table></figure>
+<ul>
+<li>添加路由方式 使用 app.route 修饰器或者非修饰器形式的 app.add_url_rule()</li>
+</ul>
+<h4 id="请求钩子"><a href="#请求钩子" class="headerlink" title="请求钩子"></a>请求钩子</h4><p><strong>Flask 提供了注册通用函数的功能， 注册的函数可在请求被分发到视图函数之前或之后调用。</strong><br>Flask 支持以下 4 种钩子</p>
+<ul>
+<li>before_first_request：注册一个函数，在处理第一个请求之前运行。</li>
+<li>before_request：注册一个函数，在每次请求之前运行。</li>
+<li>after_request：注册一个函数，如果没有未处理的异常抛出，在每次请求之后运行。</li>
+<li>teardown_request：注册一个函数，即使有未处理的异常抛出，也在每次请求之后运行</li>
+</ul>
+<p><strong>请求钩子函数和视图函数之间共享数据一般使用上下文全局变量 g（程序上下文变量）</strong></p>
+<h4 id="响应"><a href="#响应" class="headerlink" title="响应"></a>响应</h4><p><strong>响应包含三部分</strong></p>
+<ul>
+<li>响应内容</li>
+<li>响应状态码</li>
+<li>响应头</li>
+</ul>
+<h4 id="Flask响应的方式"><a href="#Flask响应的方式" class="headerlink" title="Flask响应的方式"></a>Flask响应的方式</h4><ul>
+<li>直接在视图函数用使用return方式进行</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">return response_content,response_status,response_header</div></pre></td></tr></table></figure>
+<ul>
+<li>使用Flask的response响应对象</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">from flask import make_response</div><div class="line"></div><div class="line"></div><div class="line">@app.route(&apos;/&apos;)</div><div class="line">def index():</div><div class="line">response = make_response(&apos;&lt;h1&gt;This document carries a cookie!&lt;/h1&gt;&apos;)</div><div class="line">response.set_cookie(&apos;answer&apos;, &apos;42&apos;)</div><div class="line">return response</div></pre></td></tr></table></figure>
+<ul>
+<li>特殊响应类型：重定向</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">from flask import redirect</div><div class="line"></div><div class="line"></div><div class="line">@app.route(&apos;/&apos;)</div><div class="line">def index():</div><div class="line">return redirect(&apos;http://www.example.com&apos;)</div></pre></td></tr></table></figure>
+<ul>
+<li>特殊响应类型：错误响应</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">from flask import abort</div><div class="line"></div><div class="line"></div><div class="line">@app.route(&apos;/user/&lt;id&gt;&apos;)</div><div class="line">def get_user(id):</div><div class="line">user = load_user(id)</div><div class="line">if not user:</div><div class="line">abort(404)</div><div class="line">return &apos;&lt;h1&gt;Hello, %s&lt;/h1&gt;&apos; % user.name</div></pre></td></tr></table></figure>
+<h4 id="Flask拓展之–Flask-Script"><a href="#Flask拓展之–Flask-Script" class="headerlink" title="Flask拓展之–Flask-Script"></a>Flask拓展之–Flask-Script</h4><p><strong>为 Flask 程序添加了一个命令行解析器</strong></p>
+<ul>
+<li>使用方式</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">from flask_script import Manager</div><div class="line">manager = Manager(app)</div><div class="line"># ...</div><div class="line">if __name__ == &apos;__main__&apos;:</div><div class="line">manager.run()</div></pre></td></tr></table></figure>
+<ul>
+<li>查看用法</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">$ python hello.py</div><div class="line">usage: hello.py [-h] &#123;shell,runserver&#125; ...</div><div class="line">positional arguments:</div><div class="line">&#123;shell,runserver&#125;</div><div class="line">shell 在 Flask 应用上下文中运行 Python shell</div><div class="line">runserver 运行 Flask 开发服务器： app.run()</div><div class="line">optional arguments:</div><div class="line">-h, --help 显示帮助信息并退出</div></pre></td></tr></table></figure>
+<ul>
+<li>查看运行的详情命令</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">$ python hello.py runserver --help</div><div class="line">usage: hello.py runserver [-h] [-t HOST] [-p PORT] [--threaded]</div><div class="line">[--processes PROCESSES] [--passthrough-errors] [-d]</div><div class="line">[-r]</div><div class="line">optional arguments:</div><div class="line">-h, --help 显示帮助信息并退出</div><div class="line">-t HOST, --host HOST</div><div class="line">-p PORT, --port PORT</div><div class="line">--threaded</div><div class="line">--processes PROCESSES</div><div class="line">--passthrough-errors</div><div class="line">-d, --no-debug</div><div class="line">-r, --no-reload</div></pre></td></tr></table></figure>
+<ul>
+<li>示例</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ python hello.py runserver --host 0.0.0.0</div><div class="line">* Running on http://0.0.0.0:5000/</div><div class="line">* Restarting with reloader</div></pre></td></tr></table></figure>
+<h3 id="第三章"><a href="#第三章" class="headerlink" title="第三章"></a>第三章</h3><p><strong>视图函数</strong>需要<em>访问数据库，添加新用户</em>，然后<em>生成响应</em>回送浏览器。这两个过程分别称为业务逻辑和表现逻辑</p>
+<h4 id="模板"><a href="#模板" class="headerlink" title="模板"></a>模板</h4><p><strong>一个包含响应文本的文件</strong>，其中包含用占位变量表示的动态部分，其具体值只在请求的上下文中才能知道。 使用真实值替换变量，再返回最终得到的响应字符串，这一过程称为渲染。为了渲染模板， Flask 使用了一个名为 Jinja2 的强大模板引擎</p>
+<ul>
+<li>默认情况下， Flask 在程序文件夹中的 templates 子文件夹中寻找模板</li>
+<li>Flask 提供的 render_template 函数把 Jinja2 模板引擎集成到了程序中。 render_template 函数的第一个参数是模板的文件名。 随后的参数都是键值对，表示模板中变量对应的真实值。</li>
+<li>模板中使用的  结构表示一个变量，它是一种特殊的占位符，告诉模板引擎这个位置的值从渲染模板时使用的数据中获取。</li>
+<li>使用过滤器修改变量，过滤器名添加在变量名之后，中间使用竖线分隔</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Hello, &#123;&#123; name|capitalize &#125;&#125;</div></pre></td></tr></table></figure>
+<p><img src="./image.png" alt="image0"></p>
+<p><a href="http://jinja.pocoo.org/docs/templates/#builtin-filters" target="_blank" rel="external">http://jinja.pocoo.org/docs/templates/#builtin-filters</a></p>
+<ul>
+<li>条件控制语句</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&#123;% if user %&#125;</div><div class="line">Hello, &#123;&#123; user &#125;&#125;!</div><div class="line">&#123;% else %&#125;</div><div class="line">Hello, Stranger!</div><div class="line">&#123;% endif %&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>for 循环实现</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;ul&gt;</div><div class="line">&#123;% for comment in comments %&#125;</div><div class="line">&lt;li&gt;&#123;&#123; comment &#125;&#125;&lt;/li&gt;</div><div class="line">&#123;% endfor %&#125;</div><div class="line">&lt;/ul&gt;</div></pre></td></tr></table></figure>
+<ul>
+<li>Jinja2 还支持宏。宏类似于 Python 代码中的函数。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">&#123;% macro render_comment(comment) %&#125;</div><div class="line">&lt;li&gt;&#123;&#123; comment &#125;&#125;&lt;/li&gt;</div><div class="line">&#123;% endmacro %&#125;</div><div class="line">&lt;ul&gt;</div><div class="line">&#123;% for comment in comments %&#125;</div><div class="line">&#123;&#123; render_comment(comment) &#125;&#125;</div><div class="line">&#123;% endfor %&#125;</div><div class="line">&lt;/ul&gt;</div><div class="line">为了重复使用宏，我们可以将其保存在单独的文件中，然后在需要使用的模板中导入：</div><div class="line">&#123;% import &apos;macros.html&apos; as macros %&#125;</div><div class="line">&lt;ul&gt;</div><div class="line">&#123;% for comment in comments %&#125;</div><div class="line">&#123;&#123; macros.render_comment(comment) &#125;&#125;</div><div class="line">&#123;% endfor %&#125;</div><div class="line">&lt;/ul&gt;</div><div class="line">需要在多处重复使用的模板代码片段可以写入单独的文件，再包含在所有模板中， 以避免</div><div class="line">重复：</div><div class="line">&#123;% include &apos;common.html&apos; %&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>模板继承，它类似于 Python 代码中的类继承</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">基础模块</div><div class="line">&lt;html&gt;</div><div class="line">&lt;head&gt;</div><div class="line">&#123;% block head %&#125;</div><div class="line">&lt;title&gt;&#123;% block title %&#125;&#123;% endblock %&#125; - My Application&lt;/title&gt;</div><div class="line">&#123;% endblock %&#125;</div><div class="line">&lt;/head&gt;</div><div class="line">&lt;body&gt;</div><div class="line">&#123;% block body %&#125;</div><div class="line">&#123;% endblock %&#125;</div><div class="line">&lt;/body&gt;</div><div class="line">&lt;/html&gt;</div><div class="line">其他子页面</div><div class="line">&#123;% extends &quot;base.html&quot; %&#125; </div><div class="line">&#123;% block title %&#125;Index&#123;% endblock %&#125;</div><div class="line">&#123;% block head %&#125;</div><div class="line">&#123;&#123; super() &#125;&#125;//super() 获取原来的内容。</div><div class="line">&lt;style&gt;</div><div class="line">&lt;/style&gt;</div><div class="line">&#123;% endblock %&#125;</div><div class="line">&#123;% block body %&#125;</div><div class="line">&lt;h1&gt;Hello, World!&lt;/h1&gt;</div><div class="line">&#123;% endblock %&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>集成Twitter Bootstrap</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">from flask.ext.bootstrap import Bootstrap</div><div class="line"># ...</div><div class="line">bootstrap = Bootstrap(app)</div></pre></td></tr></table></figure>
+<p><img src="./image1.png" alt="image1"><br><img src="./image2.png" alt="image2"></p>
+<h4 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h4><p><strong> 使用Flask的url_for()函数动态生成URL地址url_for(‘index’, _external=True)，_external参数为真表示绝对地址</strong></p>
+<ul>
+<li>url_for(‘index’, page=2) 的返回结果是 /?page=2</li>
+</ul>
+<h4 id="静态文件"><a href="#静态文件" class="headerlink" title="静态文件"></a>静态文件</h4><p><strong>Web 程序不是仅由 Python 代码和模板组成。大多数程序还会使用静态文件，例如 HTML代码中引用的图片、 JavaScript 源码文件和 CSS</strong></p>
+<ul>
+<li>默认设置下， Flask 在程序根目录中名为 static 的子目录中寻找静态文件</li>
+<li>url_for(‘static’, filename=’css/styles.css’, _external=True) == localhost:5000/static/css/styles.css</li>
+</ul>
+<p><img src="./image3.png" alt="image3"></p>
+<h4 id="使用Flask-Moment本地化日期和时间"><a href="#使用Flask-Moment本地化日期和时间" class="headerlink" title="使用Flask-Moment本地化日期和时间"></a>使用Flask-Moment本地化日期和时间</h4><p><strong>Flask-Moment 是一个 Flask 程序扩展，能把moment.js 集成到 Jinja2 模板中。</strong><br><strong>moment.js（<a href="http://momentjs.com/），它可以在浏览器中渲染日期和时间。" target="_blank" rel="external">http://momentjs.com/），它可以在浏览器中渲染日期和时间。</a></strong></p>
+<ul>
+<li><p>初始化</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">from flask.ext.moment import Moment</div><div class="line">moment = Moment(app)</div></pre></td></tr></table></figure>
+</li>
+<li><p>引入 moment.js 库</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&#123;% block scripts %&#125;</div><div class="line">&#123;&#123; super() &#125;&#125;</div><div class="line">&#123;&#123; moment.include_moment() &#125;&#125;</div><div class="line">&#123;% endblock %&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>使用</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">使用 Flask-Moment 渲染时间戳</div><div class="line">&lt;p&gt;The local date and time is &#123;&#123; moment(current_time).format(&apos;LLL&apos;) &#125;&#125;.&lt;/p&gt;</div><div class="line">&lt;p&gt;That was &#123;&#123; moment(current_time).fromNow(refresh=True) &#125;&#125;&lt;/p</div></pre></td></tr></table></figure>
+<h3 id="第四章"><a href="#第四章" class="headerlink" title="第四章"></a>第四章</h3><p><strong>Flask-WTF（<a href="http://pythonhosted.org/Flask-WTF/）" target="_blank" rel="external">http://pythonhosted.org/Flask-WTF/）</a> 扩展可以把处理 Web 表单的过程变成一种愉悦的体验。</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">安装</div><div class="line">(venv) $ pip install flask-wtf</div></pre></td></tr></table></figure>
+<h4 id="跨站请求伪造保护"><a href="#跨站请求伪造保护" class="headerlink" title="跨站请求伪造保护"></a>跨站请求伪造保护</h4><ul>
+<li>设置 Flask-WTF</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">app = Flask(__name__)</div><div class="line">app.config[&apos;SECRET_KEY&apos;] = &apos;hard to guess string&apos;</div></pre></td></tr></table></figure>
+<ul>
+<li>app.config 字典可用来存储框架、扩展和程序本身的配置变量。</li>
+<li>SECRET_KEY 配置变量是通用密钥，可在 Flask 和多个第三方扩展中使用。</li>
+<li>定义表单类</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">from flask.ext.wtf import Form</div><div class="line">from wtforms import StringField, SubmitField</div><div class="line">from wtforms.validators import Required</div><div class="line">class NameForm(Form):</div><div class="line">name = StringField(&apos;What is your name?&apos;, validators=[Required()])</div><div class="line">submit = SubmitField(&apos;Submit&apos;)</div></pre></td></tr></table></figure>
+<ul>
+<li>WTForms 支持的 HTML 标准字段如表 4-1 所示。</li>
+</ul>
+<p><img src="./image4.png" alt="image4"></p>
+<ul>
+<li>WTForms验证函数</li>
+</ul>
+<p><img src="./image5.png" alt="image5"></p>
+<ul>
+<li>使用 Flask-WTF 和 Flask-Bootstrap 渲染表单</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&#123;% extends &quot;base.html&quot; %&#125;  </div><div class="line">&#123;% import &quot;bootstrap/wtf.html&quot; as wtf %&#125;  </div><div class="line">&#123;% block title %&#125;Flasky&#123;% endblock %&#125;  </div><div class="line">&#123;% block page_content %&#125;  </div><div class="line">&lt;div class=&quot;page-header&quot;&gt;  </div><div class="line">&lt;h1&gt;Hello, &#123;% if name %&#125;&#123;&#123; name &#125;&#125;&#123;% else %&#125;Stranger&#123;% endif %&#125;!&lt;/h1&gt;  </div><div class="line">&lt;/div&gt;  </div><div class="line">&#123;&#123; wtf.quick_form(form) &#125;&#125;  </div><div class="line">&#123;% endblock %&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>在视图函数中处理表单</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">@app.route(&apos;/&apos;, methods=\[&apos;GET&apos;, &apos;POST&apos;\])  </div><div class="line">def index():  </div><div class="line">name = None  </div><div class="line">form = NameForm()  </div><div class="line">if form.validate_on_submit():  </div><div class="line">name = form.name.data  </div><div class="line">form.name.data = &apos;&apos;  </div><div class="line">return render_template(&apos;index.html&apos;, form=form, name=name)</div></pre></td></tr></table></figure>
+<ul>
+<li>重定向和用户会话</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">from flask import Flask, render_template, session, redirect, url_for  </div><div class="line">@app.route(&apos;/&apos;, methods=\[&apos;GET&apos;, &apos;POST&apos;\])  </div><div class="line">def index():  </div><div class="line">form = NameForm()  </div><div class="line">if form.validate_on_submit():  </div><div class="line">session\[&apos;name&apos;\] = form.name.data  </div><div class="line">return redirect(url_for(&apos;index&apos;))  </div><div class="line">return render_template(&apos;index.html&apos;, form=form, name=session.get(&apos;name&apos;))</div></pre></td></tr></table></figure>
+<ul>
+<li>Flash消息</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">from flask import Flask, render_template, session, redirect, url_for, flash  </div><div class="line">@app.route(&apos;/&apos;, methods=\[&apos;GET&apos;, &apos;POST&apos;\])  </div><div class="line">def index():  </div><div class="line">form = NameForm()  </div><div class="line">if form.validate_on_submit():  </div><div class="line">old_name = session.get(&apos;name&apos;)  </div><div class="line">if old_name is not None and old_name != form.name.data:  </div><div class="line">flash(&apos;Looks like you have changed your name!&apos;)  </div><div class="line">session\[&apos;name&apos;\] = form.name.data  </div><div class="line">return redirect(url_for(&apos;index&apos;))  </div><div class="line">return render_template(&apos;index.html&apos;,  </div><div class="line">form = form, name = session.get(&apos;name&apos;))</div></pre></td></tr></table></figure>
+<p><strong>在这个示例中，每次提交的名字都会和存储在用户会话中的名字进行比较，而会话中存储的名字是前一次在这个表单中提交的数据。如果两个名字不一样，就会调用 flash() 函数，在发给客户端的下一个响应中显示一个消息。仅调用 flash() 函数并不能把消息显示出来，程序使用的模板要渲染这些消息。最好在基模板中渲染 Flash 消息，因为这样所有页面都能使用这些消息。</strong><br><strong>这里的技巧为redirect()重定向，响应就立即显示</strong></p>
+<ul>
+<li>Flask 把 get_flashed_messages() 函数开放给模板，用来获取并渲染消息</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">&#123;% block content %&#125;  </div><div class="line">&lt;div class=&quot;container&quot;&gt;  </div><div class="line">&#123;% for message in get_flashed_messages() %&#125;  </div><div class="line">&lt;div class=&quot;alert alert-warning&quot;&gt;  </div><div class="line">&lt;button type=&quot;button&quot; class=&quot;close&quot; data-dismiss=&quot;alert&quot;&gt;×&lt;/button&gt;  </div><div class="line">&#123;&#123; message &#125;&#125;</div><div class="line">&lt;/div&gt;  </div><div class="line">&#123;% endfor %&#125;  </div><div class="line">&#123;% block page_content %&#125;&#123;% endblock %&#125;  </div><div class="line">&lt;/div&gt;  </div><div class="line">&#123;% endblock %&#125;</div></pre></td></tr></table></figure>
+</div><div class="tags"><a href="/tags/flask-web-python/">flask-web python</a></div><div class="post-nav"><a href="/2017/07/23/decimal-模块使用-md/" class="next">decimal-模块使用.md</a></div><div data-thread-key="2018/12/04/flask-web学习笔记/" data-title="flask-web学习笔记" data-url="http://yoursite.com/2018/12/04/flask-web学习笔记/" class="ds-share flat"><div class="ds-share-inline"><ul class="ds-share-icons-16"><li data-toggle="ds-share-icons-more"><a href="javascript:void(0);" class="ds-more">分享到：</a></li><li><a href="javascript:void(0);" data-service="weibo" class="ds-weibo">微博</a></li><li><a href="javascript:void(0);" data-service="qzone" class="ds-qzone">QQ空间</a></li><li><a href="javascript:void(0);" data-service="qqt" class="ds-qqt">腾讯微博</a></li><li><a href="javascript:void(0);" data-service="wechat" class="ds-wechat">微信</a></li></ul><div class="ds-share-icons-more"></div></div></div><div data-thread-key="2018/12/04/flask-web学习笔记/" data-title="flask-web学习笔记" data-url="http://yoursite.com/2018/12/04/flask-web学习笔记/" data-author-key="1" class="ds-thread"></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" class="search-form"><input type="text" name="q" maxlength="20" placeholder="Search"/><input type="hidden" name="sitesearch" value="http://yoursite.com"/></form></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> 分类</i><!-- i(class='fa fa-folder-o')= ' ' + __('categories')--></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/HTTP/">HTTP</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/decimal/">decimal</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tornado/">tornado</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/工具/">工具</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/环境部署/">环境部署</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> 标签</i><!-- i(class='fa fa-star-o')= ' ' + __('tags')--></div><div class="tagcloud"><a href="/tags/flask-web-python/" style="font-size: 15px;">flask-web python</a> <a href="/tags/python-decimal/" style="font-size: 15px;">python decimal</a> <a href="/tags/http-状态码/" style="font-size: 15px;">http 状态码</a> <a href="/tags/sublime-python/" style="font-size: 15px;">sublime python</a> <a href="/tags/python-tornado/" style="font-size: 15px;">python tornado</a> <a href="/tags/tornado-python/" style="font-size: 15px;">tornado python</a> <a href="/tags/python-web/" style="font-size: 15px;">python web</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最新文章</i><!-- i(class='fa fa-file-o')= ' ' + __('recent')--></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/12/04/flask-web学习笔记/">flask-web学习笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/23/decimal-模块使用-md/">decimal-模块使用.md</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/07/生产环境部署python-web-server/">生产环境部署python web server</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/03/tornado-日志中设置请求区分/">tornado 日志中设置请求区分</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/02/tornado-log-使用/">tornado log 使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/28/sublime快捷键设置/">sublime快捷键设置</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/27/http-状态码/">http 状态码</a></li></ul></div><div class="widget"><div class="comments-title"><i class="fa fa-comment-o"> 最近评论</i><!-- i(class='fa fa-comment-o')= ' ' + __('recent_comments')--></div><div data-num-items="5" data-show-avatars="0" data-show-time="1" data-show-admin="0" data-excerpt-length="32" data-show-title="1" class="ds-recent-comments"></div></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> 友情链接</i><!-- i(class='fa fa-external-link')= ' ' + __('blogroll')--></div><ul></ul><a href="https://namco1992.github.io/" title="namco" target="_blank">namco</a><ul></ul><a href="http://www.example2.com/" title="site-name2" target="_blank">site-name2</a><ul></ul><a href="http://www.example3.com/" title="site-name3" target="_blank">site-name3</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">© <a href="/." rel="nofollow">xlchen.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a id="rocket" href="#top" class="show"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.pack.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="/css/jquery.fancybox.css?v=0.0.0"><script>var duoshuoQuery = {short_name:'xlchen'};
+(function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0]
+        || document.getElementsByTagName('body')[0]).appendChild(ds);
+})();
+</script><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>
